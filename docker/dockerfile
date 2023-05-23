@@ -1,0 +1,12 @@
+FROM jenkins/jenkins
+
+USER root
+
+RUN echo "Updating apt-get"
+RUN apt-get update
+
+RUN echo "Installing git"
+RUN apt-get -y install git
+
+RUN echo "Installing git-ftp"
+RUN apt-get -y install git-ftp
