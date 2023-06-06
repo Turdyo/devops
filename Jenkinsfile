@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        docker { image 'node:lts-alpine3.18' }
+    }
 
     stages {
         stage ("build") {
