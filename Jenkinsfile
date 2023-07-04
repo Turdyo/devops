@@ -34,7 +34,12 @@ pipeline {
                 stage("Build image and push") {
                     steps {
                         script {
-                            docker.build("devops-image")
+                            docker.withRegistry(
+                                "https://index.docker.io/v1/",
+                                "dockerhub") {
+                                    def image = docker.build("faust1/devops-image")
+                                    image.push()
+                                }
                         }
                     }
                 }
@@ -43,7 +48,7 @@ pipeline {
                         script {
                             sh "docker stop devops-app || true"
                             sh "docker rm devops-app || true"
-                            sh "docker run -d -p 3000:3000 --name devops-app devops-image"
+                            sh "docker run -d -p 3000:3000 --name devops-app faust1/devops-image"
                         }
                     }
                 }
