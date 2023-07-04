@@ -1,26 +1,14 @@
-FROM node:lts-alpine as base
+FROM node:lts-alpine as build
 
 WORKDIR /app
 
 RUN npm install -g pnpm
-
-FROM base as dependencies
-
-WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
-
-FROM base as build
-
-WORKDIR /app
 COPY . .
-COPY --from=dependencies /app/node_modules ./node_modules
-
 RUN pnpm build
 
-FROM base as deploy
-
-WORKDIR /app
+FROM build as deploy
 
 COPY --from=build /app/next.config.mjs ./
 COPY --from=build /app/public ./public
