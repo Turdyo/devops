@@ -7,6 +7,11 @@ pipeline {
                 docker { image 'node:lts-alpine3.18' }
             }
             stages {
+                stage("Install pnpm") {
+                    steps {
+                        sh "npm install -g pnpm"
+                    }
+                }
                 stage("test") {
                     steps {
                         echo "testing..."
@@ -15,19 +20,32 @@ pipeline {
                 stage("Build") {
                     steps {
                         echo "Installing node packages"
-                        sh "npm install"
+                        sh "pnpm install"
 
                         echo "testing build of the application..."
-                        sh "npm run build"
+                        sh "pnpm run build"
                     }
                 }
             }
         }
-        stage("Deploy") {
+        stage("Build and deploy docker app") {
             agent any
-            steps {
-                script {
-                    docker.build("myapp").push()
+            stages {
+                stage("Build image and push") {
+                    steps {
+                        script {
+                            docker.build("devops-image")
+                        }
+                    }
+                }
+                stage("Deploy app") {
+                    steps {
+                        script {
+                            sh "docker stop devops-app || true"
+                            sh "docker rm devops-app || true"
+                            sh "docker run -d -p 3000:3000 --name devops-app devops-image"
+                        }
+                    }
                 }
             }
         }
