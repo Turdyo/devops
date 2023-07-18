@@ -27,7 +27,7 @@ pipeline {
                 }
                 stage("test") {
                     steps {
-                        echo "testing..."
+                        echo "pnpm run test"
                     }
                 }
                 stage("Build") {
