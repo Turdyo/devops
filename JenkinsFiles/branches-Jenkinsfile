@@ -1,0 +1,46 @@
+pipeline {
+    agent {
+        docker { image 'node:lts-alpine3.18' }
+    }
+    environment {
+        DISCORD_WEBHOOK_URL = credentials('discord-webhook')
+    }
+    stages {
+        stage("Install pnpm") {
+            steps {
+                sh "npm install -g pnpm"
+            }
+        }
+        stage("Lint") {
+            steps {
+                echo "Checking lint"
+                sh "pnpm run lint"
+            }
+        }
+        stage("test") {
+            steps {
+                echo "testing..."
+            }
+        }
+        stage("Build") {
+            steps {
+                echo "Installing node packages"
+                sh "pnpm install"
+
+                echo "testing build of the application..."
+                sh "pnpm run build"
+            }
+        }
+    }
+    post {
+        always {
+            discordSend description: currentBuild.currentResult, link:"https://youtu.be/3YxaaGgTQYM?t=63", title: "Branch pipeline ${env.CHANGE_ID}", footer:currentBuild.displayName, result: currentBuild.currentResult, webhookURL: "$DISCORD_WEBHOOK_URL"
+        }
+        success {
+            slackSend color: "good", message: "build successful " + currentBuild.displayName
+        }
+        failure {
+            slackSend color: "danger", message: "error on build " + currentBuild.displayName
+        }
+    }
+}

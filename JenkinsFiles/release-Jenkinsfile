@@ -1,0 +1,38 @@
+pipeline {
+    agent any
+    environment {
+        DISCORD_WEBHOOK_URL = credentials('discord-webhook')
+    }
+    stages {
+        stage("Build image and push") {
+            steps {
+                script {
+                    docker.withRegistry("https://index.docker.io/v1/","dockerhub") {
+                        def image = docker.build("faust1/devops-image")
+                        image.push()
+                    }
+                }
+            }
+        }
+        stage("Deploy app") {
+            steps {
+                script {
+                    sh "docker stop devops-app || true"
+                    sh "docker rm devops-app || true"
+                    sh "docker run -d -p 3000:3000 --name devops-app faust1/devops-image"
+                }
+            }
+        }
+    }
+    post {
+        always {
+            discordSend description: currentBuild.currentResult, link:"https://youtu.be/3YxaaGgTQYM?t=63", title: "Main pipeline", footer:currentBuild.displayName, result: currentBuild.currentResult, webhookURL: "$DISCORD_WEBHOOK_URL"
+        }
+        success {
+            slackSend color: "good", message: "build successful " + currentBuild.displayName
+        }
+        failure {
+            slackSend color: "danger", message: "error on build " + currentBuild.displayName
+        }
+    }
+}

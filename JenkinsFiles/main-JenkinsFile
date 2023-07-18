@@ -1,6 +1,8 @@
 pipeline {
     agent none
-
+    environment {
+        DISCORD_WEBHOOK_URL = credentials('discord-webhook')
+    }
     stages {
         stage ("test and build app") {
             agent {
@@ -10,6 +12,12 @@ pipeline {
                 stage("Install pnpm") {
                     steps {
                         sh "npm install -g pnpm"
+                    }
+                }
+                stage("Lint") {
+                    steps {
+                        echo "Checking lint"
+                        sh "pnpm run lint"
                     }
                 }
                 stage("test") {
@@ -34,12 +42,10 @@ pipeline {
                 stage("Build image and push") {
                     steps {
                         script {
-                            docker.withRegistry(
-                                "https://index.docker.io/v1/",
-                                "dockerhub") {
-                                    def image = docker.build("faust1/devops-image")
-                                    image.push()
-                                }
+                            docker.withRegistry("https://index.docker.io/v1/","dockerhub") {
+                                def image = docker.build("faust1/devops-image")
+                                image.push()
+                            }
                         }
                     }
                 }
@@ -53,6 +59,17 @@ pipeline {
                     }
                 }
             }
+        }
+    }
+    post {
+        always {
+            discordSend description: currentBuild.currentResult, link:"https://youtu.be/3YxaaGgTQYM?t=63", title: "Main pipeline", footer:currentBuild.displayName, result: currentBuild.currentResult, webhookURL: "$DISCORD_WEBHOOK_URL"
+        }
+        success {
+            slackSend color: "good", message: "build successful " + currentBuild.displayName
+        }
+        failure {
+            slackSend color: "danger", message: "error on build " + currentBuild.displayName
         }
     }
 }
