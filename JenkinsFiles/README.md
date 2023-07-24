@@ -3,7 +3,7 @@
 This project is split between three differents pipelines used to automate differents stages of a web application. You will be able to find:
 - [branches-JenkinsFile](#branches-jenkins)
 - [main-JenkinsFile](#main-jenkinsfile)
-- release-JenkinsFile
+- [release-JenkinsFile](#releases)
 
 This readme file is an introduction on the purpose of the pipelines and a tutorial to deploy them inside a jenkins master instance.
 
@@ -146,7 +146,7 @@ In Repository:
     - If your main branch is main, please enter `*/main`
     - If your main branch is named by another way, please enter `*/your_name_branch` and replace `your_name_branch` by your actual main branch name.
 
-![Alt text](readme-images/image-8.png)
+![Alt text](readme-images/image.png)
 
 5. Now head to **Script Path**. Enter the following line:
     > JenkinsFiles/main-JenkinsFile
@@ -154,3 +154,50 @@ In Repository:
 ![Alt text](readme-images/image-10.png)
 
 Now, click "ok", and the pipeline is ready !
+
+## Releases
+
+### Purpose
+
+If we want to release a new version of this app, this short but usefull pipeline is the one needed. It is manually runned when needed.
+
+It includes:
+- Release a new image on dockerhub
+- deploy the new image
+
+### Tutorial
+
+1. Click **New Item**, select pipeline, enter "release" as the pipeline name. and click "ok".
+
+![Alt text](image-17.png)
+
+2. In general, select **Do not allow concurrent builds** and **Abort previous builds**.
+
+![Alt text](image-12.png)
+
+3. Head to **Pipeline**, select `Pipeline script from SCM` in **Definition**.
+
+![Alt text](image-13.png)
+
+4. In **SCM**, select `Git`.
+
+![Alt text](image-14.png)
+
+5. Enter your Git repository url in **Repository URL**.
+
+![Alt text](image-15.png)
+
+6. **Credentials**: 
+- If your repository is private, you will have to create credentials in github and add them to the jenkins credentials. (Check [Jenkins Credentials](https://www.jenkins.io/doc/book/using/using-credentials/))
+- If your repository is public, they are not needed.
+
+7. In **branches to build**, remove the text and leave it blank.
+
+![Alt text](image-16.png)
+
+8. In **Script Path**, enter:
+    > JenkinsFiles/release-JenkinsFile
+
+![Alt text](image.png)
+
+Click save, and the pipeline is ready !
