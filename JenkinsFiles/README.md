@@ -15,7 +15,7 @@ Before heading to the pipelines configurations, we have to configure jenkins its
 
 You can install plugins by going to: `Manage Jenkins > Manage Plugins > Available plugins`.
 
-### Docker Plugin
+### Docker Pipeline
 
 Our pipelines uses a `docker` agent to run. It means that Jenkins have to know what is this agent. The Docker Plugin gives all the information to jenkins, so no need to do anything more.
 
