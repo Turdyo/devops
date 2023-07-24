@@ -169,23 +169,23 @@ It includes:
 
 1. Click **New Item**, select pipeline, enter "release" as the pipeline name. and click "ok".
 
-![Alt text](image-17.png)
+![Alt text](readme-images/image-17.png)
 
 2. In general, select **Do not allow concurrent builds** and **Abort previous builds**.
 
-![Alt text](image-12.png)
+![Alt text](readme-images/image-12.png)
 
 3. Head to **Pipeline**, select `Pipeline script from SCM` in **Definition**.
 
-![Alt text](image-13.png)
+![Alt text](readme-images/image-13.png)
 
 4. In **SCM**, select `Git`.
 
-![Alt text](image-14.png)
+![Alt text](readme-images/image-14.png)
 
 5. Enter your Git repository url in **Repository URL**.
 
-![Alt text](image-15.png)
+![Alt text](readme-images/image-15.png)
 
 6. **Credentials**: 
 - If your repository is private, you will have to create credentials in github and add them to the jenkins credentials. (Check [Jenkins Credentials](https://www.jenkins.io/doc/book/using/using-credentials/))
@@ -193,11 +193,11 @@ It includes:
 
 7. In **branches to build**, remove the text and leave it blank.
 
-![Alt text](image-16.png)
+![Alt text](readme-images/image-16.png)
 
 8. In **Script Path**, enter:
     > JenkinsFiles/release-JenkinsFile
 
-![Alt text](image.png)
+![Alt text](readme-images/image.png)
 
 Click save, and the pipeline is ready !
