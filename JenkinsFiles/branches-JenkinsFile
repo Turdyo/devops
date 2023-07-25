@@ -39,7 +39,7 @@ pipeline {
     }
     post {
         always {
-            discordSend description: currentBuild.currentResult, link:"https://youtu.be/3YxaaGgTQYM?t=63", title: "Branch pipeline ${env.BRANCH_NAME}", footer:currentBuild.displayName, result: currentBuild.currentResult, webhookURL: "$DISCORD_WEBHOOK_URL"
+            discordSend description: currentBuild.currentResult, link:"${env.BUILD_URL}", title: "Branch pipeline ${env.BRANCH_NAME}", footer:currentBuild.displayName, result: currentBuild.currentResult, webhookURL: "$DISCORD_WEBHOOK_URL"
         }
         success {
             slackSend color: "good", message: "build successful " + currentBuild.displayName
