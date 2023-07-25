@@ -48,7 +48,7 @@ pipeline {
                     steps {
                         script {
                             docker.withRegistry("https://index.docker.io/v1/","dockerhub") {
-                                def image = docker.build("faust1/devops-image")
+                                def image = docker.build("faust1/devops-image:test")
                                 image.push()
                             }
                         }
