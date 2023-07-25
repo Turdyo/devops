@@ -40,6 +40,16 @@ In **Workspace**, enter the name of your slack workspace. in **Credentials**, pl
 
 ⚠️ **If you do not want to use slack, please remove it from the jenkinsFiles before running them.** ⚠️
 
+To do so, remove the following code from the `post` stage:
+```JenkinsFile
+success {
+    slackSend color: "good", message: "build successful " + currentBuild.displayName
+        }
+failure {
+    slackSend color: "danger", message: "error on build " + currentBuild.displayName
+}
+```
+
 ### Discord Notifier
 
 If you opted for discord as a team communication tool, you have to install the **Discord notifier** plugin.
@@ -47,6 +57,13 @@ If you opted for discord as a team communication tool, you have to install the *
 Then, go to discord and [create a webhook](https://discordjs.guide/popular-topics/webhooks.html#creating-webhooks). You can now head to `Dashboard > Manage Jenkins > Credentials` and create a new credential `secret text` called **discord-webhook.**  In the secret, paste your discord webhook.
 
 ⚠️ **If you do not want to use discord, please remove it from the jenkinsFiles before running them.** ⚠️
+
+To do so, remove the following code from the `post` stage:
+```JenkinsFile
+always {
+    discordSend ...
+}
+```
 
 ## Branches-Jenkins
 

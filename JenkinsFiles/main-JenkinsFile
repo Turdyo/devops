@@ -68,7 +68,7 @@ pipeline {
     }
     post {
         always {
-            discordSend description: currentBuild.currentResult, link:"https://github.dev/Turdyo/devops", title: "Main pipeline", footer:currentBuild.displayName, result: currentBuild.currentResult, webhookURL: "$DISCORD_WEBHOOK_URL"
+            discordSend description: currentBuild.currentResult, link:"${env.BUILD_URL}", title: "Main pipeline", footer:currentBuild.displayName, result: currentBuild.currentResult, webhookURL: "$DISCORD_WEBHOOK_URL"
         }
         success {
             slackSend color: "good", message: "build successful " + currentBuild.displayName
