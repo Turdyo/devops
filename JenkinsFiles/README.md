@@ -208,7 +208,10 @@ It includes:
 - If your repository is private, you will have to create credentials in github and add them to the jenkins credentials. (Check [Jenkins Credentials](https://www.jenkins.io/doc/book/using/using-credentials/))
 - If your repository is public, they are not needed.
 
-7. In **branches to build**, remove the text and leave it blank.
+7. **Branches** to build:
+- If your main branch is **master**, please enter `*/master`
+- If your main branch is **main**, please enter `*/main`
+- If your main branch is named by another way, please enter `*/your_name_branch` and replace `your_name_branch` by your actual main branch name.
 
 ![Alt text](readme-images/image-16.png)
 
