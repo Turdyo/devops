@@ -59,7 +59,7 @@ pipeline {
                         script {
                             sh "docker stop devops-app || true"
                             sh "docker rm devops-app || true"
-                            sh "docker run -d -p 3000:3000 --name devops-app faust1/devops-image"
+                            sh "docker run -d -p 3000:3000 --name devops-test faust1/devops-image"
                         }
                     }
                 }
