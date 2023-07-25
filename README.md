@@ -3,7 +3,7 @@
 This project is a proof of concept of a Jenkins pipeline system designed for a web application.
 
 ## If you want to
-- Deploy Jenkins using docker, please refer to [Jenkins tutorial deployment](./docker/README.md)
+- Deploy Jenkins using docker, please refer to [Jenkins deployment tutorial](./docker/README.md)
 - Create the pipelines of this project, please refer to [Jenkins pipelines configuration](./JenkinsFiles/README.md)
 
 ## Create T3 App
