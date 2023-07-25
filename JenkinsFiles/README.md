@@ -83,29 +83,27 @@ In order to create the pipeline, follow the next steps:
 
 ![Alt text](readme-images/image.png)
 
-2. In **Branch sources**, click add source, select "Git". A new Git Interface should appear.
+2. In **Branch sources**, click add source, select "GitHub". A new GitHub Interface should appear.
 
 ![Alt text](readme-images/image-1.png)
 
 
-3. In the section `Project Repository` paste your git repository url.
-
-![Alt text](readme-images/image-3.png)
-
-4. **Credentials**:
-    - If your repository is private, you will have to create credentials in github and add them to the jenkins credentials.  (Check [Jenkins Credentials](https://www.jenkins.io/doc/book/using/using-credentials/))
-    - If your repository is public, they are not needed.
+3. **Credentials**:
+- If your repository is private, you will have to create credentials in github and add them to the jenkins credentials.  (Check [Jenkins Credentials](https://www.jenkins.io/doc/book/using/using-credentials/))
+- If your repository is public, they are not needed, but prefered.
 
 ![Alt text](readme-images/image-4.png)
 
-5. Now, head to **Property Strategy**. 
-    
-    Select `All branches get the same properties`. Click Add property, select suppress automatic SCM triggering. A new section should appear. In "Branch names to build automatically", enter :
-    > ^(?!.*\bmain\b).*$
-
-    It will prevent the pipeline from running on the main branch of your project.
+4. In the section `Repository HTTPS URL` paste your git repository url.
 
 ![Alt text](readme-images/image-2.png)
+
+5. Now, head to **Behaviors**. 
+- In **Discover branches**, select the `Only branches that are also filed as PRs`.
+- In **Discover pull requests from origin**, select `The current pull request revision`.
+- In **Discover pull requests from forks**, select `The current pull request revision` in **Stategy** and `From users with Admin or Write permission` in **Trust**.
+
+![Alt text](readme-images/image-3.png)
 
 6. Now head to **Build Configuration**. Mode should be on **by Jenkinsfile**. In Script path, paste: 
     > JenkinsFiles/branches-JenkinsFile
@@ -163,7 +161,7 @@ In Repository:
     - If your main branch is main, please enter `*/main`
     - If your main branch is named by another way, please enter `*/your_name_branch` and replace `your_name_branch` by your actual main branch name.
 
-![Alt text](readme-images/image.png)
+![Alt text](readme-images/image-8.png)
 
 5. Now head to **Script Path**. Enter the following line:
     > JenkinsFiles/main-JenkinsFile
@@ -218,6 +216,6 @@ It includes:
 8. In **Script Path**, enter:
     > JenkinsFiles/release-JenkinsFile
 
-![Alt text](readme-images/image.png)
+![Alt text](readme-images/image-18.png)
 
 Click save, and the pipeline is ready !
